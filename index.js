@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 8080;
 
 // CORS Middleware
 app.use(cors({
-  origin: ['https://inquisitive-pavlova-f0b954.netlify.app'],
+  origin: "*",
   credentials: true
 }));
 
