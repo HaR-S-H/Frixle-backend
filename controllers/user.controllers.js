@@ -3,6 +3,7 @@ import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import mongoose from "mongoose";
 const getUserStatus = asyncHandler(async (req, res) => {
     const _id = req.user._id;
     const user = await User.findById(_id).populate("followers followings");
