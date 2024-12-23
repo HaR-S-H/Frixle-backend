@@ -80,8 +80,8 @@ const logInUser = asyncHandler(async (req, res) => {
     const token = existingUser.generateAccessToken();
    const cookieOptions = {
         httpOnly: true,
-       secure: process.env.NODE_ENV === "production", // Only send cookie over HTTPS in production
-        sameSite: 'strict',
+       // secure: process.env.NODE_ENV === "production", // Only send cookie over HTTPS in production
+        sameSite: 'none',
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     };
 
