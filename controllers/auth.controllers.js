@@ -78,7 +78,17 @@ const logInUser = asyncHandler(async (req, res) => {
     }
     console.log(req.body)
     const token = existingUser.generateAccessToken();
-    return res.status(200).cookie("token", token).json(new ApiResponse(200, {existingUser, token},"user logged in successfully"));
+   const cookieOptions = {
+        httpOnly: true,
+       // secure: process.env.NODE_ENV === "production", // Only send cookie over HTTPS in production
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    };
+
+    return res
+        .status(200)
+        .cookie("token", token, cookieOptions)
+        .json(new ApiResponse(200, {existingUser, token}, "user logged in successfully"));
 })
 
 
