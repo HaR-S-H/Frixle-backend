@@ -19,14 +19,12 @@ connectedDB();
 const PORT = process.env.PORT || 8080;
 
 // Trust Render Proxy
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 // CORS Middleware
 app.use(cors({
-    origin: true,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+  origin: ['https://inquisitive-pavlova-f0b954.netlify.app'],
+  credentials: true
 }));
 
 // Middleware
