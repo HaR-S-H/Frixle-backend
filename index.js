@@ -23,8 +23,10 @@ app.set("trust proxy", 1);
 
 // CORS Middleware
 app.use(cors({
-    origin: "*",
-    credentials: true
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Middleware
