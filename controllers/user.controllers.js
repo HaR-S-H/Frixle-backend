@@ -55,8 +55,8 @@ const updateUserStatus = asyncHandler(async(req, res) =>{
 const followUserStatus = asyncHandler(async (req, res) => { 
     // const _id = req.user._id;
     // const followId = req.params._id;
-    const _id = mongoose.Types.ObjectId(req.user._id);
-const followId = mongoose.Types.ObjectId(req.params._id);
+    const _id = new mongoose.Types.ObjectId(req.user._id);
+const followId = new mongoose.Types.ObjectId(req.params._id);
     const targetUser = await User.findById(followId);
     const user = await User.findById(_id);
     targetUser.followers.push(_id);
@@ -68,8 +68,8 @@ const followId = mongoose.Types.ObjectId(req.params._id);
 const unFollowUserStatus = asyncHandler(async (req, res) => { 
     // const _id = req.user._id;
     // const unFollowId = req.params._id;
-    const _id = mongoose.Types.ObjectId(req.user._id);
-const followId = mongoose.Types.ObjectId(req.params._id);
+    const _id = new mongoose.Types.ObjectId(req.user._id);
+const followId = new mongoose.Types.ObjectId(req.params._id);
     const user = await User.findById(_id);
     const targetUser = await User.findById(unFollowId);
     user.followings.pull(unFollowId);
