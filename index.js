@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 8080;
 
 // CORS Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://your-production-domain.com'], 
+  origin: ['http://localhost:5173', 'https://your-production-domain.com'], 
   credentials: true
 }));
 
