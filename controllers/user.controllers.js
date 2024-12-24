@@ -80,19 +80,12 @@ const updateUserStatus = asyncHandler(async(req, res) =>{
 // })
 
 const followUserStatus = asyncHandler(async (req, res) => {
-    const _id = req.user._id;
-    const followId = req.params._id;
-console.log("User ID:", req.user._id, "Type:", typeof req.user._id);
-console.log("Param ID:", req.params._id, "Type:", typeof req.params._id);
-    // Validate ObjectIds
-    if (!mongoose.Types.ObjectId.isValid(_id) || !mongoose.Types.ObjectId.isValid(followId)) {
-        return res.status(400).json(
-            new ApiResponse(400, null, "Invalid user ID format")
-        );
-    }
+    // Convert both IDs to strings for consistent comparison
+    const _id = req.user._id.toString();
+    const followId = req.params._id.toString();
 
     // Check if trying to follow self
-    if (_id.toString() === followId) {
+    if (_id === followId) {
         return res.status(400).json(
             new ApiResponse(400, null, "Users cannot follow themselves")
         );
@@ -108,16 +101,20 @@ console.log("Param ID:", req.params._id, "Type:", typeof req.params._id);
         );
     }
 
-    // Check if already following
-    if (targetUser.followers.includes(_id)) {
+    // Convert target user's followers to strings for checking
+    const isAlreadyFollowing = targetUser.followers.some(
+        followerId => followerId.toString() === _id
+    );
+
+    if (isAlreadyFollowing) {
         return res.status(400).json(
             new ApiResponse(400, null, "Already following this user")
         );
     }
 
-    // Convert IDs to ObjectId before pushing
-    targetUser.followers.push(mongoose.Types.ObjectId(_id));
-    user.followings.push(mongoose.Types.ObjectId(followId));
+    // Push the ObjectIds directly
+    targetUser.followers.push(req.user._id);
+    user.followings.push(new mongoose.Types.ObjectId(followId));
 
     await targetUser.save();
     await user.save();
@@ -128,18 +125,12 @@ console.log("Param ID:", req.params._id, "Type:", typeof req.params._id);
 });
 
 const unFollowUserStatus = asyncHandler(async (req, res) => {
-    const _id = req.user._id;
-    const unFollowId = req.params._id;
-
-    // Validate ObjectIds
-    if (!mongoose.Types.ObjectId.isValid(_id) || !mongoose.Types.ObjectId.isValid(unFollowId)) {
-        return res.status(400).json(
-            new ApiResponse(400, null, "Invalid user ID format")
-        );
-    }
+    // Convert both IDs to strings for consistent comparison
+    const _id = req.user._id.toString();
+    const unFollowId = req.params._id.toString();
 
     // Check if trying to unfollow self
-    if (_id.toString() === unFollowId) {
+    if (_id === unFollowId) {
         return res.status(400).json(
             new ApiResponse(400, null, "Users cannot unfollow themselves")
         );
@@ -155,16 +146,20 @@ const unFollowUserStatus = asyncHandler(async (req, res) => {
         );
     }
 
-    // Check if actually following
-    if (!user.followings.includes(unFollowId)) {
+    // Convert user's followings to strings for checking
+    const isFollowing = user.followings.some(
+        followingId => followingId.toString() === unFollowId
+    );
+
+    if (!isFollowing) {
         return res.status(400).json(
             new ApiResponse(400, null, "You are not following this user")
         );
     }
 
-    // Convert IDs to ObjectId before pulling
-    user.followings.pull(mongoose.Types.ObjectId(unFollowId));
-    targetUser.followers.pull(mongoose.Types.ObjectId(_id));
+    // Remove the IDs
+    user.followings = user.followings.filter(id => id.toString() !== unFollowId);
+    targetUser.followers = targetUser.followers.filter(id => id.toString() !== _id);
 
     await user.save();
     await targetUser.save();
