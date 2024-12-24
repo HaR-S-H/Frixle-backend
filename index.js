@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 8080;
 
 // CORS Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://soft-moxie-457860.netlify.app'], 
+  origin:"*", 
   credentials: true
 }));
 
