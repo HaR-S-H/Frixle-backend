@@ -22,9 +22,15 @@ const PORT = process.env.PORT || 8080;
 // app.set("trust proxy", 1);
 
 // CORS Middleware
+// app.use(cors({
+//   origin:"*", 
+//   credentials: true
+// }));
 app.use(cors({
-  origin:"*", 
-  credentials: true
+    origin: "https://soft-moxie-457860.netlify.app",  // Your frontend URL
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
 
 // Middleware
