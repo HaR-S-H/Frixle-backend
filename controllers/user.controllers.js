@@ -82,7 +82,8 @@ const updateUserStatus = asyncHandler(async(req, res) =>{
 const followUserStatus = asyncHandler(async (req, res) => {
     const _id = req.user._id;
     const followId = req.params._id;
-
+console.log("User ID:", req.user._id, "Type:", typeof req.user._id);
+console.log("Param ID:", req.params._id, "Type:", typeof req.params._id);
     // Validate ObjectIds
     if (!mongoose.Types.ObjectId.isValid(_id) || !mongoose.Types.ObjectId.isValid(followId)) {
         return res.status(400).json(
