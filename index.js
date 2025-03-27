@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 8080;
 //   credentials: true
 // }));
 app.use(cors({
-    origin: "https://soft-moxie-457860.netlify.app",  // Your frontend URL
+    origin: "https://frixle.netlify.app",  // Your frontend URL
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
